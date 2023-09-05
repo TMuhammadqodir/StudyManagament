@@ -115,9 +115,10 @@ public class StudentService : IStudentService
 
     public async Task<IEnumerable<StudentResultDTO>> GetByBeelineTelNumber()
     {
-        var students = _studentRepository.GetAll(t => t.TelNumber[4] == '9' && (t.TelNumber[5] == '1' || t.TelNumber[5] == '0'), true);
+        var students = _studentRepository.GetAll(null, true, new string[] { "StudentSciences" });
 
-        var result = _mapper.Map<IEnumerable<StudentResultDTO>>(students);
+        var result = _mapper.Map<IEnumerable<StudentResultDTO>>(students)
+            .Where(t => t.TelNumber[4] == '9' && (t.TelNumber[5] == '1' || t.TelNumber[5] == '0'));
 
         return result;
     }
